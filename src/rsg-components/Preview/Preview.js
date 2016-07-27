@@ -35,7 +35,7 @@ export default class Preview extends Component {
 	}
 
 	executeCode() {
-		let mountNode = this.refs.mount;
+		let mountNode = this.refs.mount.getDOMNode();
 
 		React.unmountComponentAtNode(mountNode);
 
