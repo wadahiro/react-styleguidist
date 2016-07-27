@@ -1,4 +1,4 @@
-import ReactDOMServer from 'react-dom/server';
+import React from 'react';
 
 import Markdown from 'rsg-components/Markdown';
 
@@ -18,7 +18,7 @@ Text with *some* **formatting** and a [link](/foo).
 	<p class="_src_rsg_components_Markdown_Markdown__p">Text with <em class="_src_rsg_components_Markdown_Markdown__em">some</em> <strong class="_src_rsg_components_Markdown_Markdown__strong">formatting</strong> and a <a href="/foo" class="_src_rsg_components_Markdown_Markdown__a _src_styles_colors__link">link</a>.</p>
 	<p class="_src_rsg_components_Markdown_Markdown__p"><img alt="Image" src="/bar.png" class="_src_rsg_components_Markdown_Markdown__img"/></p>
 </span>`.replace(/[\n\t]/g, '');
-		let actual = ReactDOMServer.renderToStaticMarkup(<Markdown text={markdown}/>);
+		let actual = React.renderToStaticMarkup(<Markdown text={markdown}/>);
 
 		expect(actual).to.eql(expected);
 	});

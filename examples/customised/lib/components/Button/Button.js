@@ -1,23 +1,27 @@
-import { Component, PropTypes } from 'react';
+import React, { Component, PropTypes } from 'react';
 
 import s from './Button.css';
 
 /**
  * The only true button.
  */
-export default function Button({
-	color,
-	size,
-	children
-}) {
-	let styles = {
-		color: color,
-		fontSize: Button.sizes[size]
-	};
+export default class Button extends React.Component {
+	render() {
+		const {
+			color,
+			size,
+			children,
+		} = this.props;
 
-	return (
-		<button className={s.root} style={styles}>{children}</button>
-	);
+		let styles = {
+			color: color,
+			fontSize: Button.sizes[size]
+		};
+
+		return (
+			<button className={s.root} style={styles}>{children}</button>
+		);
+	}
 }
 Button.propTypes = {
 	/**

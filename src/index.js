@@ -1,6 +1,5 @@
 import React from 'react';
 import _ from 'lodash';
-import ReactDOM from 'react-dom';
 import { setComponentsNames, globalizeComponents, promoteInlineExamples, flattenChildren } from './utils/utils';
 import StyleGuide from 'rsg-components/StyleGuide';
 
@@ -51,7 +50,7 @@ function renderStyleguide() {
 			_.merge(filteredComponents, filterTargetComponents(section.components));
 		});
 
-		ReactDOM.render(
+		React.render(
 			<StyleGuide
 				config={config}
 				components={filteredComponents}
@@ -63,7 +62,7 @@ function renderStyleguide() {
 		hasRenderedFullStyleguide = false;
 	}
 	else if (!hasRenderedFullStyleguide) {
-		ReactDOM.render(
+		React.render(
 			<StyleGuide
 				config={config}
 				components={components}

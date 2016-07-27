@@ -58,19 +58,20 @@ function handleIterate(Tag, props, children) {
 	return <Tag {...props}>{children}</Tag>;
 }
 
-export default function Markdown({
-	text,
-	className,
-}) {
-	let classes = cx(s.root, className);
+export default class Markdown extends React.Component {
+	render() {
+		const { text, className } = this.props;
 
-	return (
-		<MDReactComponent
-			text={text}
-			className={classes}
-			onIterate={handleIterate}
-		/>
-	);
+		let classes = cx(s.root, className);
+
+		return (
+			<MDReactComponent
+				text={text}
+				className={classes}
+				onIterate={handleIterate}
+				/>
+		);
+	}
 }
 
 Markdown.propTypes = {

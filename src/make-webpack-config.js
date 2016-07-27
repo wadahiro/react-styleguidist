@@ -123,11 +123,7 @@ module.exports = function(env) {
 					{
 						test: /\.jsx?$/,
 						include: __dirname,
-						loader: 'babel',
-						query: {
-							babelrc: false,
-							presets: ['es2015', 'react', 'stage-0'],
-						},
+						loader: 'babel-loader?optional=runtime&stage=0',
 					},
 				],
 			},
@@ -156,11 +152,7 @@ module.exports = function(env) {
 					{
 						test: /\.jsx?$/,
 						include: __dirname,
-						loader: 'babel',
-						query: {
-							babelrc: false,
-							presets: ['es2015', 'react', 'stage-0', 'react-hmre'],
-						},
+						loaders: ['react-hot', 'babel-loader?optional=runtime&stage=0'],
 					},
 				],
 			},

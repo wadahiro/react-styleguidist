@@ -1,8 +1,7 @@
 // Based on https://github.com/joelburget/react-live-editor/blob/master/live-compile.jsx
 
 import React, { Component, PropTypes } from 'react';
-import ReactDOM from 'react-dom';
-import { transform } from 'babel-standalone';
+import babel from 'babel-core/browser';
 import Wrapper from 'rsg-components/Wrapper';
 
 import s from './Preview.css';
@@ -32,15 +31,13 @@ export default class Preview extends Component {
 	}
 
 	compileCode(code) {
-		return transform(code, {
-			presets: ['es2015', 'react', 'stage-0'],
-		}).code;
+		return babel.transform(code, {stage: 0}).code;
 	}
 
 	executeCode() {
 		let mountNode = this.refs.mount;
 
-		ReactDOM.unmountComponentAtNode(mountNode);
+		React.unmountComponentAtNode(mountNode);
 
 		this.setState({
 			error: null,
@@ -118,10 +115,10 @@ export default class Preview extends Component {
 				</Wrapper>
 			);
 
-			ReactDOM.render(wrappedComponent, mountNode);
+			React.render(wrappedComponent, mountNode);
 		}
 		catch (err) {
-			ReactDOM.unmountComponentAtNode(mountNode);
+			React.unmountComponentAtNode(mountNode);
 			this.setState({
 				error: err.toString(),
 			});

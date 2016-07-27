@@ -7,9 +7,12 @@ import sMarkdown from '../Markdown/Markdown.css';
 
 /* eslint-disable react/prop-types */
 
-export let Code = ({ className = '', children }) => {
-	return <code className={sMarkdown.code + ' ' + className}>{children}</code>;
-};
+export class Code extends React.Component {
+	render() {
+		const { className = '', children } = this.props;
+		return <code className={sMarkdown.code + ' ' + className}>{children}</code>;
+	};
+}
 
 export function unquote(string) {
 	return trim(string, '"\'');

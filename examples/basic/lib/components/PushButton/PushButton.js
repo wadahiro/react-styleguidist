@@ -1,23 +1,27 @@
-import { Component, PropTypes } from 'react';
+import React, { Component, PropTypes } from 'react';
 
 import s from './PushButton.css';
 
 /**
  * An example-less button.
  */
-export default function PushButton({
-	color,
-	size,
-	children
-}) {
-	let styles = {
-		color: color,
-		fontSize: PushButton.sizes[size]
-	};
+export default class PushButton extends React.Component {
+	render() {
+		const {
+			color,
+			size,
+			children
+		} = this.props;
 
-	return (
-		<button className={s.root} style={styles}>{children}</button>
-	);
+		let styles = {
+			color: color,
+			fontSize: PushButton.sizes[size]
+		};
+
+		return (
+			<button className={s.root} style={styles}>{children}</button>
+		);
+	}
 }
 PushButton.propTypes = {
 	/**
