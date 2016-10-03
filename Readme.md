@@ -13,12 +13,13 @@ Based on Webpack, webpack-dev-server and Babel.
 * [Getting started](./docs/GettingStarted.md): installation and documenting components
 * [Configuration](./docs/Configuration.md)
 * [CLI commands and options](./docs/CLI.md)
+* [API](./docs/API.md)
 * [FAQ](./docs/FAQ.md)
 
 ## Examples
 
 * [Basic style guide](http://sapegin.github.io/react-styleguidist/), [source](./examples/basic)
-* Style guide with sections, [source](./examples/basic-sections)
+* Style guide with sections, [source](./examples/sections)
 * Style guide with customized styles, [source](./examples/customised)
 
 ## Showcase

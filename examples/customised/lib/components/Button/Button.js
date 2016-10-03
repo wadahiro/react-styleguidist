@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+﻿import React, { Component, PropTypes } from 'react';
 
 import s from './Button.css';
 
@@ -8,19 +8,19 @@ import s from './Button.css';
 export default class Button extends React.Component {
 	render() {
 		const {
-			color,
-			size,
-			children,
+	color,
+	size,
+	children,
 		} = this.props;
 
-		let styles = {
-			color: color,
-			fontSize: Button.sizes[size]
-		};
+	let styles = {
+		color,
+		fontSize: Button.sizes[size],
+	};
 
-		return (
-			<button className={s.root} style={styles}>{children}</button>
-		);
+	return (
+		<button className={s.root} style={styles}>{children}</button>
+	);
 	}
 }
 Button.propTypes = {
@@ -33,10 +33,10 @@ Button.propTypes = {
 };
 Button.defaultProps = {
 	color: '#333',
-	size: 'normal'
+	size: 'normal',
 };
 Button.sizes = {
 	small: '10px',
 	normal: '14px',
-	large: '18px'
+	large: '18px',
 };

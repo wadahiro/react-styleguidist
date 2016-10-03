@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+﻿import React, { Component, PropTypes } from 'react';
 
 import s from './PushButton.css';
 
@@ -8,19 +8,19 @@ import s from './PushButton.css';
 export default class PushButton extends React.Component {
 	render() {
 		const {
-			color,
-			size,
-			children
+	color,
+	size,
+	children,
 		} = this.props;
 
-		let styles = {
-			color: color,
-			fontSize: PushButton.sizes[size]
-		};
+	let styles = {
+		color,
+		fontSize: PushButton.sizes[size],
+	};
 
-		return (
-			<button className={s.root} style={styles}>{children}</button>
-		);
+	return (
+		<button className={s.root} style={styles}>{children}</button>
+	);
 	}
 }
 PushButton.propTypes = {
@@ -33,10 +33,10 @@ PushButton.propTypes = {
 };
 PushButton.defaultProps = {
 	color: '#333',
-	size: 'normal'
+	size: 'normal',
 };
 PushButton.sizes = {
 	small: '10px',
 	normal: '14px',
-	large: '18px'
+	large: '18px',
 };

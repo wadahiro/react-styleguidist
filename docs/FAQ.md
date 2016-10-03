@@ -1,14 +1,63 @@
 # FAQ
 
+## How to use `ref`s in examples?
+
+Use `ref` prop as a function and assign a reference to a local variable:
+
+```javascript
+initialState = { value: '' };
+let textarea;
+<div>
+  <Button onClick={() => textarea.insertAtCursor('Pizza')}>Insert</Button>
+  <Textarea value={state.value} onChange={e => setState({ value: e.target.value })} ref={ref => textarea = ref} />
+</div>
+```
+
+## How to exclude some components from style guide?
+
+Filter them out in the `components` option:
+
+```javascript
+components() {
+  return glob.sync(path.resolve(__dirname, 'lib/components/**/*.js')).filter(module => !/\/(foo|bar).js$/.test(module));  // Ignore foo.js and bar.js
+},
+```
+
+## How to hide some components in style guide but make them available in examples?
+
+Enable [skipComponentsWithoutExample](Configuration.md) option and do not add example file (`Readme.md` by default) to components you want to ignore.
+
+Require these components in your examples:
+
+```javascript
+const Button = require('../common/Button');
+<Button>Push Me Tender</Button>
+```
+
+## How to add babel-polyfill?
+
+Add a new Webpack entry point. In your style guide config:
+
+```javascript
+const path = require('path');
+module.exports = {
+  updateWebpackConfig(webpackConfig) {
+    // Babel loader, etc.
+    webpackConfig.entry.unshift('babel-polyfill');
+    return webpackConfig;
+  },
+};
+```
+
 ## How to add custom JS and CSS?
 
 Add a new Webpack entry point. In your style guide config:
 
 ```javascript
-var path = require('path');
+const path = require('path');
 module.exports = {
   // ...
-  updateWebpackConfig: function(webpackConfig, env) {
+  updateWebpackConfig(webpackConfig) {
     webpackConfig.entry.push(path.join(__dirname, 'path/to/script.js'));
     webpackConfig.entry.push(path.join(__dirname, 'path/to/styles.css'));
     return webpackConfig;
@@ -23,10 +72,10 @@ You may need an appropriate Webpack loader to handle these files.
 Add a new Webpack entry point in your style guide config:
 
 ```javascript
-var path = require('path');
+const path = require('path');
 module.exports = {
   // ...
-  updateWebpackConfig: function(webpackConfig, env) {
+  updateWebpackConfig(webpackConfig) {
     webpackConfig.entry.push(path.join(__dirname, 'lib/styleguide/styles.css'));
     return webpackConfig;
   },
@@ -46,34 +95,20 @@ Now you can change almost any piece of a style guide. For example you can change
 
 Use your browser’s developer tools to find CSS class names of the elements you want to change.
 
-## How to change the behaviour of a style guide?
+## How to change the layout of a style guide?
 
-You can replace any Styleguidist React component. In your style guide config:
+You can replace any Styleguidist React component. But in most of the cases you will want to replace `*Renderer` components — all HTML is rendered by these components. For example `ReactComponentRenderer`, `ComponentsListRenderer`, `PropsRenderer`, etc. — [check the source](https://github.com/sapegin/react-styleguidist/tree/master/src/rsg-components) to see what components are available.
 
-```javascript
-var path = require('path');
-module.exports = {
-  // ...
-  updateWebpackConfig: function(webpackConfig, env) {
-    webpackConfig.resolve.alias['rsg-components/StyleGuide'] = path.join(__dirname, 'lib/styleguide/StyleGuide');
-    return webpackConfig;
-  },
-};
-```
-
-There are two special wrapper components. They do nothing by themselves and were made specifically to be replaced with a custom logic:
-
-* `StyleGuide` — the root component of a style guide React app.
-* `Wrapper` — wraps every example component.
+There‘s also a special wrapper component — `Wrapper` — that wraps every example component. By default it just renders `children` as is but you can use it to provide a custom logic.
 
 For example you can replace the `Wrapper` component to wrap any example in the [React Intl’s](http://formatjs.io/react/) provider component. You can’t wrap the whole style guide because every example is compiled separately in a browser.
 
 ```javascript
 // styleguide.config.js
-var path = require('path');
+const path = require('path');
 module.exports = {
   // ...
-  updateWebpackConfig: function(webpackConfig, env) {
+  updateWebpackConfig(webpackConfig) {
     webpackConfig.resolve.alias['rsg-components/Wrapper'] = path.join(__dirname, 'lib/styleguide/Wrapper');
     return webpackConfig;
   },
@@ -93,26 +128,42 @@ export default class Wrapper extends Component {
 }
 ```
 
-You can replace the `StyleGuide` component like this:
+You can replace the `StyleGuideRenderer` component like this:
 
 ```javascript
-import React, { Component } from 'react';
-import Layout from 'react-styleguidist/src/rsg-components/Layout';
-import Renderer from 'react-styleguidist/src/rsg-components/Layout/Renderer';
+// styleguide.config.js
+const path = require('path');
+module.exports = {
+  // ...
+  updateWebpackConfig(webpackConfig) {
+    webpackConfig.resolve.alias['rsg-components/StyleGuide/StyleGuideRenderer'] = path.join(__dirname, 'lib/styleguide/StyleGuideRenderer');
+    return webpackConfig;
+  },
+};
 
-export default class StyleGuide extends Component {
-  componentDidMount() {
-    /*_*/
-  }
-  
-  render() {
-    const LayoutRenderer = Layout(Renderer);
-    return (
-      <LayoutRenderer {...this.props} />
-    );
-  }
-}
+// lib/styleguide/StyleGuideRenderer.js
+import React from 'react';
+const StyleGuideRenderer = ({ title, components, toc, sidebar }) => (
+	<div className="root">
+		<h1>{title}</h1>
+		<main className="wrapper">
+			<div className="content">
+        {components}
+        <footer className="footer">
+          <Markdown
+            text="Generated with [React Styleguidist](https://github.com/sapegin/react-styleguidist)"
+          />
+        </footer>
+			</div>
+			<div className="sidebar">
+				{toc}
+			</div>
+		</main>
+	</div>
+);
 ```
+
+We have [an example style guide](https://github.com/sapegin/react-styleguidist/tree/master/examples/customised) with custom components.
 
 ## How to debug my components and examples?
 
@@ -126,6 +177,22 @@ export default class StyleGuide extends Component {
 1. Put `debugger;` statement at the beginning of your code.
 2. Press the ![Debugger](http://wow.sapegin.me/image/2n2z0b0l320m/debugger.png) button in your browser’s developer tools.
 3. Press the ![Continue](http://wow.sapegin.me/image/2d2z1Y2o1z1m/continue.png) button and the debugger will stop execution at the next exception.
+
+## How to change style guide dev server logs output?
+You can modify webpack dev server logs format passing `webpack.stats` options inside `updateWebpackConfig`.
+```javascript
+module.exports = {
+  // ...
+  updateWebpackConfig(webpackConfig, env) {
+    if (env === 'development') {
+      webpackConfig.stats.chunks = false;
+      webpackConfig.stats.chunkModules = false;
+      webpackConfig.stats.chunkOrigins = false;
+    }
+    return webpackConfig;
+  }
+};
+```
 
 ## Why does the style guide list one of my prop types as `unknown`?
 

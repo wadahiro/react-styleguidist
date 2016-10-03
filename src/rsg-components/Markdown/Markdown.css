@@ -1,4 +1,4 @@
-.root {
+.base {
 	composes: font from "../../styles/common.css";
 }
 
@@ -16,6 +16,7 @@
 .h4,
 .h5,
 .h6 {
+	composes: font from "../../styles/common.css";
 	margin-top: 0;
 	margin-bottom: 15px;
 }
@@ -42,6 +43,7 @@
 	composes: reset monospace from "../../styles/common.css";
 	display: inline;
 	font-size: inherit;
+	color: inherit;
 }
 
 .pre {

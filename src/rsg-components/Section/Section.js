@@ -1,51 +1,31 @@
 import React, { Component, PropTypes } from 'react';
-import Markdown from 'rsg-components/Markdown';
-import Playground from 'rsg-components/Playground';
+import Examples from 'rsg-components/Examples';
 import Components from 'rsg-components/Components';
+import SectionRenderer from 'rsg-components/Section/SectionRenderer';
 
-const Section = (Renderer) => class extends Component {
+export default class Section extends Component {
 	static propTypes = {
-		highlightTheme: PropTypes.string.isRequired,
 		section: PropTypes.object.isRequired,
 		sidebar: PropTypes.bool,
 	};
 
-	renderContent(highlightTheme, examples) {
+	renderContent(examples) {
 		if (!examples) {
 			return null;
 		}
 
-		return examples.map((example, index) => {
-			switch (example.type) {
-				case 'code':
-					return (
-						<Playground
-							code={example.content}
-							evalInContext={example.evalInContext}
-							highlightTheme={highlightTheme}
-							key={index}
-						/>
-					);
-				case 'markdown':
-					return (
-						<Markdown
-							text={example.content}
-							key={index}
-						/>
-					);
-				default:
-					return null;
-			}
-		});
+		return (
+			<Examples examples={examples} />
+		);
 	}
 
-	renderComponents(highlightTheme, components, sections, sidebar) {
+	renderComponents(components, sections, sidebar) {
 		if (!components && !sections) {
 			return null;
 		}
 
 		return (
-			<Components highlightTheme={highlightTheme}
+			<Components
 				components={components || []}
 				sections={sections || []}
 				sidebar={sidebar}
@@ -54,16 +34,13 @@ const Section = (Renderer) => class extends Component {
 	}
 
 	render() {
-		const { highlightTheme, section, sidebar } = this.props;
-
+		const { section, sidebar } = this.props;
 		return (
-			<Renderer
+			<SectionRenderer
 				name={section.name}
-				content={this.renderContent(highlightTheme, section.content)}
-				components={this.renderComponents(highlightTheme, section.components, section.sections, sidebar)}
+				content={this.renderContent(section.content)}
+				components={this.renderComponents(section.components, section.sections, sidebar)}
 			/>
 		);
 	}
-};
-
-export default Section;
+}
