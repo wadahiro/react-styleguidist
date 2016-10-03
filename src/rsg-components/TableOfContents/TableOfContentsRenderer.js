@@ -2,21 +2,24 @@ import React, { PropTypes } from 'react';
 
 import s from './TableOfContents.css';
 
-const TableOfContentsRenderer = ({ items, searchTerm, onSearchTermChange }) => {
-	return (
-		<div>
-			<div className={s.root}>
-				<input
-					value={searchTerm}
-					className={s.search}
-					placeholder="Filter by name"
-					onChange={event => onSearchTermChange(event.target.value)}
-				/>
-				{items}
+class TableOfContentsRenderer extends React.Component {
+	render() {
+		const { items, searchTerm, onSearchTermChange } = this.props;
+		return (
+			<div>
+				<div className={s.root}>
+					<input
+						value={searchTerm}
+						className={s.search}
+						placeholder="Filter by name"
+						onChange={event => onSearchTermChange(event.target.value)}
+						/>
+					{items}
+				</div>
 			</div>
-		</div>
-  );
-};
+		);
+	}
+}
 
 TableOfContentsRenderer.propTypes = {
 	items: PropTypes.node.isRequired,

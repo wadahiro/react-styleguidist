@@ -1,4 +1,4 @@
-﻿import { PropTypes } from 'react';
+﻿import React, { PropTypes } from 'react';
 import mapValues from 'lodash/mapValues';
 import renderMarkdown from '../../utils/markdown-to-jsx';
 

@@ -1,11 +1,16 @@
 import React, { PropTypes } from 'react';
 
-const ComponentsRenderer = ({ components, sections }) => (
-	<div>
-		{components}
-		{sections}
-	</div>
-);
+class ComponentsRenderer extends React.Component {
+	render() {
+		const { components, sections } = this.props;
+		return (
+			<div>
+				{components}
+				{sections}
+			</div>
+		);
+	}
+}
 
 ComponentsRenderer.propTypes = {
 	components: PropTypes.array.isRequired,
